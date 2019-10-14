@@ -9,6 +9,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+import static org.testng.Assert.assertEquals;
 
 public class CallbackTest {
     static WebDriver driver;
@@ -24,47 +25,32 @@ public class CallbackTest {
     public static void PositiveTest() throws InterruptedException {
         driver.get("http://iteaua-develop.demo.gns-it.com");
         WebDriverWait wait = new WebDriverWait(driver, 60);
-        WebElement preloader = driver.findElement(By.id("preload-it"));
-        wait.until(ExpectedConditions.visibilityOf(preloader));
-        wait.until(ExpectedConditions.invisibilityOf(preloader));
-        By recallwindow = By.className("callback-btn");
-        WebElement element = driver.findElement(recallwindow);
-        element.click();
+        wait.until(ExpectedConditions.visibilityOf(driver.findElement(By.id("preload-it"))));
+        wait.until(ExpectedConditions.invisibilityOf(driver.findElement(By.id("preload-it"))));
+        driver.findElement(By.className("callback-btn")).click();
         wait.until(ExpectedConditions.visibilityOf(driver.findElement(By.className("b-header-contacte"))));
-        By input1 = By.id("b-contacte__full-name");
-        WebElement element1 = driver.findElement(input1);
-        element1.sendKeys("TEST");
-        By input2 = By.id("b-contacte-phone-tel");
-        WebElement element2 = driver.findElement(input2);
-        element2.sendKeys("0666666666");
-        By submitbtn = By.xpath("//*[@id=\"callback-form\"]/input[4]");
-        WebElement element3 = driver.findElement(submitbtn);
-        element3.click();
+        driver.findElement(By.id("b-contacte__full-name")).sendKeys("TEST");
+        driver.findElement(By.id("b-contacte-phone-tel")).sendKeys("0666666666");
+        driver.findElement(By.xpath("//*[@id=\"callback-form\"]/input[4]")).click();
         wait.until(ExpectedConditions.visibilityOf(driver.findElement(By.className("b-header-contacte-phone-thank"))));
-        By spanposit = By.className("b-header-contacte-phone-thank");
-        WebElement element4 = driver.findElement(spanposit);
-        System.out.println(element4.getText());
+        String actualString = driver.findElement(By.className("b-header-contacte-phone-thank")).getText();
+        String expectedString = "Спасибо!\nНаш менеджер свяжется с Вами.";
+        assertEquals(expectedString, actualString);
     }
 
     @Test(description = "Negative case")
     public static void NegativeTest() throws InterruptedException {
         driver.get("http://iteaua-develop.demo.gns-it.com");
         WebDriverWait wait = new WebDriverWait(driver, 60);
-        WebElement preloader = driver.findElement(By.id("preload-it"));
-        wait.until(ExpectedConditions.visibilityOf(preloader));
-        wait.until(ExpectedConditions.invisibilityOf(preloader));
-        By recallwindow = By.className("callback-btn");
-        WebElement element = driver.findElement(recallwindow);
-        element.click();
+        wait.until(ExpectedConditions.visibilityOf(driver.findElement(By.id("preload-it"))));
+        wait.until(ExpectedConditions.invisibilityOf(driver.findElement(By.id("preload-it"))));
+        driver.findElement(By.className("callback-btn")).click();
         wait.until(ExpectedConditions.visibilityOf(driver.findElement(By.className("b-header-contacte"))));
-        By submitbtn2 = By.xpath("//*[@id=\"callback-form\"]/input[4]");
-        WebElement element1 = driver.findElement(submitbtn2);
-        element1.click();
-        wait.until(ExpectedConditions.attributeContains(By.id("b-contacte__full-name"), "style", "border-color: red;"));
-        wait.until(ExpectedConditions.attributeContains(By.id("b-contacte-phone-tel"), "style", "border-color: red;"));
-        System.out.println("Enter your personal data");
+        driver.findElement(By.xpath("//*[@id=\"callback-form\"]/input[4]")).click();
+        String actualString = driver.findElement(By.id("b-contacte__full-name")).getAttribute("style");
+        String expectedString = "border-color: red;";
+        assertEquals(expectedString, actualString);
     }
-
 
     @AfterMethod
     public static void tearDown() {
