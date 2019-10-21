@@ -14,14 +14,18 @@ public class TestListener implements ITestListener {
 
     @Override
     public void onTestSuccess(ITestResult iTestResult) {
-        WebDriver driver = (WebDriver) iTestResult.getTestContext().getAttribute("webDriver");
-        new Screenshot(driver).saveScreenshot(iTestResult);
+        ITestContext context = iTestResult.getTestContext();
+        WebDriver driver = (WebDriver) context.getAttribute("webDriver");
+        Screenshot screenshot = new Screenshot(driver);
+        screenshot.saveScreenshot(iTestResult);
     }
 
     @Override
     public void onTestFailure(ITestResult iTestResult) {
-        WebDriver driver = (WebDriver) iTestResult.getTestContext().getAttribute("webDriver");
-        new Screenshot(driver).saveScreenshot(iTestResult);
+        ITestContext context = iTestResult.getTestContext();
+        WebDriver driver = (WebDriver) context.getAttribute("webDriver");
+        Screenshot screenshot = new Screenshot(driver);
+        screenshot.saveScreenshot(iTestResult);
     }
 
     @Override
@@ -31,8 +35,7 @@ public class TestListener implements ITestListener {
 
     @Override
     public void onTestFailedButWithinSuccessPercentage(ITestResult iTestResult) {
-        WebDriver driver = (WebDriver) iTestResult.getTestContext().getAttribute("webDriver");
-        new Screenshot(driver).saveScreenshot(iTestResult);
+
     }
 
     @Override

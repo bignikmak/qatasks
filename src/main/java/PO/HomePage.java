@@ -1,11 +1,13 @@
 package main.java.PO;
 
+import jdk.nashorn.internal.objects.annotations.Property;
 import main.java.Utils.PropertyLoader;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class HomePage extends BasePage {
     public Logger logger = LogManager.getLogger(this.getClass());

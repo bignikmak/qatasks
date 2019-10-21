@@ -3,11 +3,12 @@ package test.java;
 import main.java.PO.DayCoursesPage;
 import main.java.PO.EveningCoursesPage;
 import main.java.PO.HomePage;
+import main.java.Utils.Screenshot;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.ITestResult;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
@@ -18,8 +19,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.testng.Assert.assertTrue;
-import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.*;
 
 public class CoursesTest {
     static WebDriver driver;
@@ -34,7 +34,6 @@ public class CoursesTest {
         System.setProperty("webdriver.chrome.driver", "chromedriver.exe");
         driver = new ChromeDriver();
         driver.manage().window().maximize();
-        wait = new WebDriverWait(driver, 60);
         homePage = new HomePage(driver);
         eveningCoursesPage = new EveningCoursesPage(driver);
         dayCoursesPage = new DayCoursesPage(driver);
@@ -98,20 +97,12 @@ public class CoursesTest {
         homePage.isShown()
                 .openEveningCourses();
         eveningCoursesPage.selectEveningCourse(course)
-                .clickEveningCourse(course)
-                .selectionsCheck(course);
+                .clickEveningCourse();
 
-        String[] arr = {"checked", "not(:checked)", "not(:checked)"};
-        List<String> expected = new ArrayList<>(Arrays.asList(arr));
-
-        boolean presence = true;
-        List<WebElement> actual = driver.findElements(By.xpath("//input[@type=\"radio\"]"));
-        for(WebElement el: actual) {
-            if(!expected.contains(el.getText())) {
-                presence = false;
-            }
-        }
-        assertEquals(expected, actual);
+        assertTrue(driver.findElement(By.xpath("//input[@type=\"radio\"][1]")).isSelected());
+        assertFalse(driver.findElement(By.xpath("//input[@type=\"radio\"][2]")).isSelected());
+        assertFalse(driver.findElement(By.xpath("//input[@type=\"radio\"][3]")).isSelected());
+        assertFalse(driver.findElement(By.xpath("//input[@type=\"checkbox\"]")).isSelected());
     }
 
     @AfterMethod
@@ -168,10 +159,29 @@ public class CoursesTest {
     @DataProvider(name = "provider3")
     public Object[][] provider3() {
         return new Object[][]{
-                {"checked"},
-                {"not(:checked)"},
-                {"not(:checked)"},
-                {"not(:checked)"},
+                {"Тестирование"},
+                {"Frontend development"},
+                {"JS development"},
+                {"Веб-дизайн"},
+                {"PHP"},
+                {"Программирование под IOS"},
+                {"Программирование под Android"},
+                {"Java programming"},
+                {"Python"},
+                {"Data Science/Machine Learning"},
+                {"C# /.NET development"},
+                {"C++"},
+                {"Game Development"},
+                {"DEVOPS"},
+                {"Digital Marketing"},
+                {"Управление персоналом"},
+                {"Управление проектами"},
+                {"Менеджмент"},
+                {"Кибербезопасность"},
+                {"Mobile development"},
+                {"Видеомонтаж"},
+                {"Cisco"},
+                {"Go development"}
         };
     }
 }

@@ -12,7 +12,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 public class Screenshot {
-    private WebDriver driver;
+    public WebDriver driver;
 
     public Screenshot(WebDriver driver){
         this.driver = driver;
