@@ -3,12 +3,14 @@ package test.java;
 import main.java.PO.DayCoursesPage;
 import main.java.PO.EveningCoursesPage;
 import main.java.PO.HomePage;
+import main.java.Utils.RetryAnalyzer;
 import main.java.Utils.Screenshot;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.testng.ITestContext;
 import org.testng.ITestResult;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
@@ -30,10 +32,11 @@ public class CoursesTest {
     static DayCoursesPage dayCoursesPage;
 
     @BeforeMethod
-    public static void setUp() {
+    public static void setUp(ITestContext context) {
         System.setProperty("webdriver.chrome.driver", "chromedriver.exe");
         driver = new ChromeDriver();
         driver.manage().window().maximize();
+        context.setAttribute("webDriver", driver);
         homePage = new HomePage(driver);
         eveningCoursesPage = new EveningCoursesPage(driver);
         dayCoursesPage = new DayCoursesPage(driver);
@@ -78,18 +81,19 @@ public class CoursesTest {
         assertTrue(presence);
     }
 
-    @Test(dataProvider = "provider")
+    @Test(dataProvider = "eveningCourses")
     public static void EveningCoursesTest(String course) throws InterruptedException {
         homePage.isShown()
                 .openEveningCourses();
         eveningCoursesPage.selectEveningCourse(course);
     }
 
-    @Test(dataProvider = "provider2")
+    @Test(dataProvider = "dayCourses")
     public static void DayCoursesTest(String course) throws InterruptedException {
         homePage.isShown()
                 .openDayCourses();
         dayCoursesPage.selectDayCourse(course);
+        fail();
     }
 
     @Test(dataProvider = "provider3")
@@ -110,8 +114,8 @@ public class CoursesTest {
         driver.quit();
     }
 
-    @DataProvider(name = "provider")
-    public Object[][] provider() {
+    @DataProvider(name = "eveningCourses")
+    public Object[][] eveningCourses() {
         return new Object[][]{
                 {"Тестирование"},
                 {"Frontend development"},
@@ -139,11 +143,11 @@ public class CoursesTest {
         };
     }
 
-    @DataProvider(name = "provider2")
-    public Object[][] provider2() {
+    @DataProvider(name = "dayCourses")
+    public Object[][] dayCourses() {
         return new Object[][]{
-                {"Microsoft"},
-                {"Cisco"},
+                {"Microsoft"}
+               /* {"Cisco"},
                 {"UNIX / Linux"},
                 {"Oracle"},
                 {"ITIL"},
@@ -152,7 +156,7 @@ public class CoursesTest {
                 {"Пользовательские курсы"},
                 {"Vmware"},
                 {"Teradata"},
-                {"EC-Council"}
+                {"EC-Council"}*/
         };
     }
 

@@ -33,8 +33,9 @@ public class HomePage extends BasePage {
     public HomePage openEveningCourses() {
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//a[@class=\'parent\'])[2]")));
         driver.findElement(By.xpath("(//a[@class=\"parent\"])[2]")).click();
-        wait.until(ExpectedConditions.visibilityOf(driver.findElement(By.xpath("(//li[@id='menu-item-411']/ul/li/a)[1]"))));
-        driver.findElement(By.xpath("(//li[@id='menu-item-411']/ul/li/a)[1]")).click();
+        logger.error("This hello world");
+        wait.until(ExpectedConditions.visibilityOf(driver.findElement(By.xpath("(//li[@id=\'menu-item-411\']/ul/li/a)[1]"))));
+        driver.findElement(By.xpath("(//li[@id=\'menu-item-411\']/ul/li/a)[1]")).click();
         logger.info("Evening courses is opened");
         return this;
     }
@@ -42,6 +43,7 @@ public class HomePage extends BasePage {
     public HomePage openDayCourses() {
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//li[@id=\"menu-item-7901\"]/a")));
         driver.findElement(By.xpath("//li[@id=\"menu-item-7901\"]/a")).click();
+        logger.warn("Day is present");
         wait.until(ExpectedConditions.visibilityOf(driver.findElement(By.xpath("(//li[@id=\"menu-item-7901\"]/ul/li/a)[1]"))));
         driver.findElement(By.xpath("(//li[@id=\"menu-item-7901\"]/ul/li/a)[1]")).click();
         logger.info("Day courses is opened");

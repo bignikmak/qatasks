@@ -14,10 +14,6 @@ public class TestListener implements ITestListener {
 
     @Override
     public void onTestSuccess(ITestResult iTestResult) {
-        ITestContext context = iTestResult.getTestContext();
-        WebDriver driver = (WebDriver) context.getAttribute("webDriver");
-        Screenshot screenshot = new Screenshot(driver);
-        screenshot.saveScreenshot(iTestResult);
     }
 
     @Override
