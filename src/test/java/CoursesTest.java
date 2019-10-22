@@ -1,5 +1,8 @@
 package test.java;
 
+import io.qameta.allure.Epic;
+import io.qameta.allure.Feature;
+import io.qameta.allure.Story;
 import main.java.PO.DayCoursesPage;
 import main.java.PO.EveningCoursesPage;
 import main.java.PO.HomePage;
@@ -23,6 +26,8 @@ import java.util.List;
 
 import static org.testng.Assert.*;
 
+@Epic("Cart menu")
+@Feature("Cart2")
 public class CoursesTest {
     static WebDriver driver;
     static WebDriverWait wait;
@@ -42,6 +47,7 @@ public class CoursesTest {
         dayCoursesPage = new DayCoursesPage(driver);
     }
 
+    @Story("")
     @Test(description = "evening")
     public static void checkEveningCourses() {
         homePage.isShown()
@@ -107,6 +113,19 @@ public class CoursesTest {
         assertFalse(driver.findElement(By.xpath("//input[@type=\"radio\"][2]")).isSelected());
         assertFalse(driver.findElement(By.xpath("//input[@type=\"radio\"][3]")).isSelected());
         assertFalse(driver.findElement(By.xpath("//input[@type=\"checkbox\"]")).isSelected());
+    }
+
+    @Test
+    public static void Test() throws Exception {
+        String[] str = {"Тестирование", "Frontend development", "JS development", "Веб-дизайн",
+                "PHP", "Программирование под IOS", "Программирование под Android", "Java programming",
+                "Python", "Data Science/Machine Learning", "C# /.NET development", "C++",
+                "Game Development", "DEVOPS", "Digital Marketing", "Управление персоналом",
+                "Управление проектами", "Менеджмент", "Кибербезопасность", "Mobile development",
+                "Видеомонтаж", "Cisco", "Go development"};
+        int rand = (int) (Math.random() * (str.length + 1));
+        homePage.isShown();
+        eveningCoursesPage.selectEveningCourse(str[rand]);
     }
 
     @AfterMethod
