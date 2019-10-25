@@ -10,6 +10,7 @@
 
     <properties>
         <aspectj.version>1.8.10</aspectj.version>
+        <suiteXmlFile>testng.xml</suiteXmlFile>
     </properties>
 
     <build>
@@ -24,7 +25,7 @@
                 <configuration>
                     <!-- Suite testng xml file to consider for test execution -->
                     <suiteXmlFiles>
-                        <suiteXmlFile>testng.xml</suiteXmlFile>
+                        <suiteXmlFile>${suiteXmlFile}</suiteXmlFile>
                     </suiteXmlFiles>
 
                     <argLine>
