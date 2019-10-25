@@ -1,5 +1,6 @@
 package main.java.PO;
 
+import io.qameta.allure.Step;
 import jdk.nashorn.internal.objects.annotations.Property;
 import main.java.Utils.PropertyLoader;
 import org.apache.log4j.LogManager;
@@ -16,6 +17,7 @@ public class HomePage extends BasePage {
         super(driver);
     }
 
+    @Step("Open home page")
     public HomePage isShown() {
         driver.get(PropertyLoader.loadProperty("url"));
         this.waitSpinner();
@@ -23,6 +25,7 @@ public class HomePage extends BasePage {
         return this;
     }
 
+    @Step("Select recall button")
     public HomePage clickRecall() {
         driver.findElement(By.className("callback-btn")).click();
         wait.until(ExpectedConditions.visibilityOf(driver.findElement(By.className("b-header-contacte"))));

@@ -1,16 +1,12 @@
 package test.java;
 
-import io.qameta.allure.Epic;
-import io.qameta.allure.Feature;
-import io.qameta.allure.Story;
+import io.qameta.allure.*;
 import main.java.PO.DayCoursesPage;
 import main.java.PO.EveningCoursesPage;
 import main.java.PO.HomePage;
 import main.java.Utils.RetryAnalyzer;
 import main.java.Utils.Screenshot;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.ITestContext;
@@ -29,15 +25,15 @@ import static org.testng.Assert.*;
 @Epic("Cart menu")
 @Feature("Cart2")
 public class CoursesTest {
-    static WebDriver driver;
-    static WebDriverWait wait;
-    static WebElement preloader;
-    static HomePage homePage;
-    static EveningCoursesPage eveningCoursesPage;
-    static DayCoursesPage dayCoursesPage;
+     WebDriver driver;
+     WebDriverWait wait;
+     WebElement preloader;
+     HomePage homePage;
+     EveningCoursesPage eveningCoursesPage;
+     DayCoursesPage dayCoursesPage;
 
     @BeforeMethod
-    public static void setUp(ITestContext context) {
+    public void setUp(ITestContext context) {
         System.setProperty("webdriver.chrome.driver", "chromedriver.exe");
         driver = new ChromeDriver();
         driver.manage().window().maximize();
@@ -47,9 +43,14 @@ public class CoursesTest {
         dayCoursesPage = new DayCoursesPage(driver);
     }
 
-    @Story("")
+    @Link("example.org")
+    @TmsLink("tms.com/AAA-1")
+    @Issues({
+            @Issue("B-1")
+    })
+    @Story("check evening courses")
     @Test(description = "evening")
-    public static void checkEveningCourses() {
+    public void checkEveningCourses() {
         homePage.isShown()
                 .openEveningCourses();
         String[] arr = {"Тестирование", "Frontend development", "JS development", "Веб-дизайн",
@@ -69,8 +70,9 @@ public class CoursesTest {
         assertTrue(presence);
     }
 
+    @Story("Day check courses")
     @Test(description = "day")
-    public static void checkDayCourses() {
+    public void checkDayCourses() {
         homePage.isShown()
                 .openDayCourses();
         String[] arr = {"Microsoft", "Cisco", "UNIX / Linux", "Oracle",
@@ -88,14 +90,14 @@ public class CoursesTest {
     }
 
     @Test(dataProvider = "eveningCourses")
-    public static void EveningCoursesTest(String course) throws InterruptedException {
+    public void EveningCoursesTest(String course) throws InterruptedException {
         homePage.isShown()
                 .openEveningCourses();
         eveningCoursesPage.selectEveningCourse(course);
     }
 
     @Test(dataProvider = "dayCourses")
-    public static void DayCoursesTest(String course) throws InterruptedException {
+    public void DayCoursesTest(String course) throws InterruptedException {
         homePage.isShown()
                 .openDayCourses();
         dayCoursesPage.selectDayCourse(course);
@@ -103,7 +105,7 @@ public class CoursesTest {
     }
 
     @Test(dataProvider = "provider3")
-    public static void EveningCoursesSelectionsTest(String course) throws InterruptedException {
+    public void EveningCoursesSelectionsTest(String course) throws InterruptedException {
         homePage.isShown()
                 .openEveningCourses();
         eveningCoursesPage.selectEveningCourse(course)
@@ -116,7 +118,7 @@ public class CoursesTest {
     }
 
     @Test
-    public static void Test() throws Exception {
+    public void Test() throws Exception {
         String[] str = {"Тестирование", "Frontend development", "JS development", "Веб-дизайн",
                 "PHP", "Программирование под IOS", "Программирование под Android", "Java programming",
                 "Python", "Data Science/Machine Learning", "C# /.NET development", "C++",
@@ -129,7 +131,8 @@ public class CoursesTest {
     }
 
     @AfterMethod
-    public static void tearDown(ITestResult result) {
+    public void tearDown(ITestResult result) {
+        saveScreenshot();
         driver.quit();
     }
 
@@ -206,6 +209,11 @@ public class CoursesTest {
                 {"Cisco"},
                 {"Go development"}
         };
+    }
+
+    @Attachment(value = "Page screenshot", type = "image/png")
+    public byte[] saveScreenshot() {
+        return ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
     }
 }
 
