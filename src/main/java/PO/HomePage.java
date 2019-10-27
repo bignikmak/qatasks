@@ -34,11 +34,11 @@ public class HomePage extends BasePage {
     }
 
     public HomePage openEveningCourses() {
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//a[@class=\'parent\'])[2]")));
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//a[@class=\"parent\"])[2]")));
         driver.findElement(By.xpath("(//a[@class=\"parent\"])[2]")).click();
-        logger.error("This hello world");
-        wait.until(ExpectedConditions.visibilityOf(driver.findElement(By.xpath("(//li[@id=\'menu-item-411\']/ul/li/a)[1]"))));
-        driver.findElement(By.xpath("(//li[@id=\'menu-item-411\']/ul/li/a)[1]")).click();
+        logger.error("Evening courses page has no errors");
+        wait.until(ExpectedConditions.visibilityOf(driver.findElement(By.xpath("(//li[@id=\"menu-item-411\"]/ul/li/a)[1]"))));
+        driver.findElement(By.xpath("(//li[@id=\"menu-item-411\"]/ul/li/a)[1]")).click();
         logger.info("Evening courses is opened");
         return this;
     }

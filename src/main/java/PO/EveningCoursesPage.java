@@ -16,10 +16,10 @@ public class EveningCoursesPage extends BasePage {
     }
 
     public EveningCoursesPage selectEveningCourse(String course) {
-        wait.until(ExpectedConditions.visibilityOf(driver.findElement(By.xpath("//div[@class=\"container_12 isotope 23\"]/div[h2='" + course + "']"))));
+        wait.until(ExpectedConditions.visibilityOf(driver.findElement(By.xpath("//div[@class=\"container_12 isotope 23\"]/div[h2=\"" + course + "\"]"))));
         logger.info("Loader is disappeared");
-        driver.findElement(By.xpath("//div[@class=\"container_12 isotope 23\"]/div[h2='" + course + "']"));
-        logger.debug(course + " is found");
+        driver.findElement(By.xpath("//div[@class=\"container_12 isotope 23\"]/div[h2=\"" + course + "\"]"));
+        logger.debug(course + " course is found");
         return this;
     }
 

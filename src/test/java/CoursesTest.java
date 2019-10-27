@@ -1,12 +1,14 @@
 package test.java;
 
 import io.qameta.allure.*;
+import main.java.PO.BasePage;
 import main.java.PO.DayCoursesPage;
 import main.java.PO.EveningCoursesPage;
 import main.java.PO.HomePage;
 import main.java.Utils.RetryAnalyzer;
 import main.java.Utils.Screenshot;
 import org.openqa.selenium.*;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.ITestContext;
@@ -22,8 +24,8 @@ import java.util.List;
 
 import static org.testng.Assert.*;
 
-@Epic("Cart menu")
-@Feature("Cart2")
+@Epic("ITEA courses checking")
+@Feature("Check existing")
 public class CoursesTest {
      WebDriver driver;
      WebDriverWait wait;
@@ -43,12 +45,12 @@ public class CoursesTest {
         dayCoursesPage = new DayCoursesPage(driver);
     }
 
-    @Link("example.org")
+    @Link("itea.ua/evening/")
     @TmsLink("tms.com/AAA-1")
     @Issues({
             @Issue("B-1")
     })
-    @Story("check evening courses")
+    @Story("Check evening courses")
     @Test(description = "evening")
     public void checkEveningCourses() {
         homePage.isShown()
@@ -70,7 +72,7 @@ public class CoursesTest {
         assertTrue(presence);
     }
 
-    @Story("Day check courses")
+    @Story("Check day courses")
     @Test(description = "day")
     public void checkDayCourses() {
         homePage.isShown()
@@ -101,10 +103,9 @@ public class CoursesTest {
         homePage.isShown()
                 .openDayCourses();
         dayCoursesPage.selectDayCourse(course);
-        fail();
     }
 
-    @Test(dataProvider = "provider3")
+    @Test(dataProvider = "eveningCoursesRadioChecking")
     public void EveningCoursesSelectionsTest(String course) throws InterruptedException {
         homePage.isShown()
                 .openEveningCourses();
@@ -117,17 +118,31 @@ public class CoursesTest {
         assertFalse(driver.findElement(By.xpath("//input[@type=\"checkbox\"]")).isSelected());
     }
 
-    @Test
-    public void Test() throws Exception {
+    @Test(description = "Random Courses Click")
+    public void RandomCoursePresenceTest() throws Exception {
         String[] str = {"Тестирование", "Frontend development", "JS development", "Веб-дизайн",
                 "PHP", "Программирование под IOS", "Программирование под Android", "Java programming",
                 "Python", "Data Science/Machine Learning", "C# /.NET development", "C++",
                 "Game Development", "DEVOPS", "Digital Marketing", "Управление персоналом",
                 "Управление проектами", "Менеджмент", "Кибербезопасность", "Mobile development",
                 "Видеомонтаж", "Cisco", "Go development"};
-        int rand = (int) (Math.random() * (str.length + 1));
-        homePage.isShown();
-        eveningCoursesPage.selectEveningCourse(str[rand]);
+        int rand = (int) (Math.random() * (str.length));
+        homePage.isShown()
+                .openEveningCourses();
+        eveningCoursesPage.selectEveningCourse(str[rand])
+                          .clickEveningCourse();
+
+        driver.findElement(By.id("name")).sendKeys("TEST");
+        driver.findElement(By.id("email")).sendKeys("test@test.com");
+        driver.findElement(By.id("phone")).sendKeys("1111111111");
+        driver.findElement(By.xpath("//label[@for=\"input-privacy-policy\"]/span")).click();
+        driver.findElement(By.xpath("//input[@class=\"submit \"]")).click();
+        homePage.waitSpinner();
+        homePage.wait.until(ExpectedConditions.visibilityOf(driver.findElement(By.xpath("//div[@class=\"container regDiv\"]//h1"))));
+        String actualString = driver.findElement(By.xpath("//div[@class=\"container regDiv\"]//h1")).getText();
+        String expectedString = "Ваша заявка принята.\n" +
+                "Наш менеджер свяжется с вами в ближайшее время!";
+        assertEquals(expectedString, actualString);;
     }
 
     @AfterMethod
@@ -168,8 +183,8 @@ public class CoursesTest {
     @DataProvider(name = "dayCourses")
     public Object[][] dayCourses() {
         return new Object[][]{
-                {"Microsoft"}
-               /* {"Cisco"},
+                {"Microsoft"},
+                {"Cisco"},
                 {"UNIX / Linux"},
                 {"Oracle"},
                 {"ITIL"},
@@ -178,12 +193,12 @@ public class CoursesTest {
                 {"Пользовательские курсы"},
                 {"Vmware"},
                 {"Teradata"},
-                {"EC-Council"}*/
+                {"EC-Council"}
         };
     }
 
-    @DataProvider(name = "provider3")
-    public Object[][] provider3() {
+    @DataProvider(name = "eveningCoursesRadioChecking")
+    public Object[][] eveningCoursesRadioChecking() {
         return new Object[][]{
                 {"Тестирование"},
                 {"Frontend development"},

@@ -9,7 +9,7 @@
         <classes>
             <class name="test.java.CoursesTest">
                 <methods>
-                    <include name="EveningCoursesTest"/>
+                    <include name="DayCoursesTest"/>
                 </methods>
             </class>
         </classes>

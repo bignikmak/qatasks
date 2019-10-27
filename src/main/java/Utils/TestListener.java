@@ -26,7 +26,6 @@ public class TestListener implements ITestListener {
 
     @Override
     public void onTestSkipped(ITestResult iTestResult) {
-
     }
 
     @Override

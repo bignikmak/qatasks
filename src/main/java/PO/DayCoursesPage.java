@@ -16,8 +16,8 @@ public class DayCoursesPage extends BasePage {
     }
 
     public DayCoursesPage selectDayCourse(String course) {
-        wait.until(ExpectedConditions.visibilityOf(driver.findElement(By.xpath("//div[@class='grid_3 item'][h2='" + course +"']"))));
-        driver.findElement(By.xpath("//div[@class='grid_3 item'][h2='" + course +"']"));
+        wait.until(ExpectedConditions.visibilityOf(driver.findElement(By.xpath("//div[@class=\"grid_3 item\"][h2=\"" + course +"\"]"))));
+        driver.findElement(By.xpath("//div[@class=\"grid_3 item\"][h2=\"" + course +"\"]"));
         logger.info(course + " is found");
         return this;
     }
